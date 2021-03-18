@@ -66,7 +66,7 @@ const NEGATIVE_ONE: Fs = Fs(FsRepr([
 ]));
 
 /// This is the underlying representation of an element of `Fs`.
-#[derive(Copy, Clone, PartialEq, Eq, Default, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Default, Debug, Hash)]
 pub struct FsRepr(pub [u64; 4]);
 
 impl ::rand::Rand for FsRepr {
@@ -279,6 +279,12 @@ impl ::rand::Rand for Fs {
                 return tmp
             }
         }
+    }
+}
+
+impl std::hash::Hash for Fs {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.0.hash(state);
     }
 }
 

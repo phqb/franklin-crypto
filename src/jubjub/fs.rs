@@ -36,7 +36,7 @@ const ROOT_OF_UNITY: FsRepr = FsRepr([0xaa9f02ab1d6124de, 0xb3524a6466112932, 0x
 const NEGATIVE_ONE: Fs = Fs(FsRepr([0xaa9f02ab1d6124de, 0xb3524a6466112932, 0x7342261215ac260b, 0x4d6b87b1da259e2]));
 
 /// This is the underlying representation of an element of `Fs`.
-#[derive(Copy, Clone, PartialEq, Eq, Default, Debug)]
+#[derive(Copy, Clone, PartialEq, Eq, Default, Debug, Hash)]
 pub struct FsRepr(pub [u64; 4]);
 
 impl ::rand::Rand for FsRepr {
@@ -249,6 +249,12 @@ impl ::rand::Rand for Fs {
                 return tmp
             }
         }
+    }
+}
+
+impl std::hash::Hash for Fs {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.0.hash(state);
     }
 }
 
